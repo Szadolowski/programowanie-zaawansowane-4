@@ -4,43 +4,30 @@
 using namespace std;
 
 int main() {
-    cout << "=== TEST 4: KSZTALTY I STRUKTURA ===" << endl;
+    cout << "=== TEST 6: ARYTMETYKA SKALARNA ===" << endl;
 
-    int rozmiar = 4;
-    matrix M(rozmiar);
-
-    // 1. Szachownica
-    cout << "1. Szachownica (4x4):" << endl;
-    M.szachownica();
-    cout << M << endl;
-
-    // 2. Przekatna (Jednostkowa)
-    cout << "2. Przekatna glowna:" << endl;
-    M.przekatna();
-    cout << M << endl;
-
-    // 3. Nad przekatna
-    cout << "3. Trojkat gorny (nad przekatna):" << endl;
-    M.nad_przekatna();
-    cout << M << endl;
-
-    // 4. Diagonalna przesunieta (z tablicy)
-    cout << "4. Diagonalna z tablicy przesunieta o k=1:" << endl;
-    int dane[] = {9, 9, 9, 9}; // Dane do wpisania
-    M.diagonalna_k(1, dane);
-    cout << M << endl;
-
-    // 5. Transpozycja
-    cout << "5. Test Transpozycji:" << endl;
-    // Najpierw stworzmy niesymetryczna macierz
-    M.alokuj(3); // Zmieniamy na 3x3 dla czytelnosci
-    M.wstaw(0, 1, 5); // Wstawiamy 5 w dolnym lewym rogu (kolumna 0, wiersz 1)
-    cout << "Przed obrotem (5 jest na dole po lewej):" << endl;
-    cout << M;
+    // Macierz 2x2 z samymi jedynkami
+    int t[] = {1, 1, 1, 1};
+    matrix A(2, t);
     
-    M.dowroc();
-    cout << "Po obrocie (5 powinno byc na gorze po prawej):" << endl;
-    cout << M << endl;
+    cout << "Macierz A (same 1):" << endl << A;
+
+    // 1. Dodawanie skalarne (A + 5)
+    cout << "1. A + 5 (oczekiwane 6):" << endl;
+    cout << (A + 5);
+
+    // 2. Mnozenie skalarne (A * 10)
+    cout << "2. A * 10 (oczekiwane 10):" << endl;
+    cout << (A * 10);
+
+    // 3. Friend: Liczba + Macierz (5 + A)
+    cout << "3. 5 + A (oczekiwane 6):" << endl;
+    cout << (5 + A);
+
+    // 4. Friend: Odejmowanie (10 - A)
+    // 10 - 1 = 9
+    cout << "4. 10 - A (oczekiwane 9):" << endl;
+    cout << (10 - A);
 
     return 0;
 }

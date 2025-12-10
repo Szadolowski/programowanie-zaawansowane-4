@@ -17,6 +17,7 @@
         // ...
         // LISTA PLIKÓW DO KOMPILACJI:
         "${workspaceFolder}/src/matrix_core.cpp",
+        "${workspaceFolder}/src/matrix_math.cpp",
         "${workspaceFolder}/src/matrix_logic.cpp", // <--- DODANO TĘ LINIĘ
         "${workspaceFolder}/app/main.cpp",
         // ...
