@@ -111,3 +111,53 @@ matrix operator-(int a, const matrix& m) {
     }
     return wynik;
 }
+
+// --- Operatory Modyfikujace (Compound Assignment) ---
+
+matrix& matrix::operator+=(int a) {
+    for (int i = 0; i < n * n; ++i) {
+        data[i] += a;
+    }
+    return *this;
+}
+
+matrix& matrix::operator-=(int a) {
+    for (int i = 0; i < n * n; ++i) {
+        data[i] -= a;
+    }
+    return *this;
+}
+
+matrix& matrix::operator*=(int a) {
+    for (int i = 0; i < n * n; ++i) {
+        data[i] *= a;
+    }
+    return *this;
+}
+
+// --- Operatory Inkrementacji/Dekrementacji (Postfiks) ---
+
+// Zgodnie z zadaniem: "wszystkie liczby powiekszone o 1"
+// Zwracamy referencje (matrix&), wiec dzialamy na oryginalnym obiekcie.
+matrix& matrix::operator++(int) {
+    for (int i = 0; i < n * n; ++i) {
+        data[i]++;
+    }
+    return *this;
+}
+
+matrix& matrix::operator--(int) {
+    for (int i = 0; i < n * n; ++i) {
+        data[i]--;
+    }
+    return *this;
+}
+
+// --- Funktor (Operator wywolania) ---
+
+// Zadanie: "wszystkie cyfry sa powiekszone o czesc calkowita z wpisanej cyfry"
+matrix& matrix::operator()(double a) {
+    int czesc_calkowita = static_cast<int>(a);
+    // Wykorzystujemy istniejacy operator += zeby nie powielac kodu
+    return (*this += czesc_calkowita);
+}

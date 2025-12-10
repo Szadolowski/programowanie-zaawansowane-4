@@ -4,30 +4,32 @@
 using namespace std;
 
 int main() {
-    cout << "=== TEST 6: ARYTMETYKA SKALARNA ===" << endl;
+    cout << "=== TEST 7: MODYFIKACJE I INKREMENTACJA ===" << endl;
 
-    // Macierz 2x2 z samymi jedynkami
-    int t[] = {1, 1, 1, 1};
-    matrix A(2, t);
-    
-    cout << "Macierz A (same 1):" << endl << A;
+    // Startujemy z macierza wypelniona zerami
+    matrix A(2); 
+    cout << "Start A (zera):" << endl << A;
 
-    // 1. Dodawanie skalarne (A + 5)
-    cout << "1. A + 5 (oczekiwane 6):" << endl;
-    cout << (A + 5);
+    // 1. Inkrementacja (A++)
+    A++;
+    cout << "1. Po A++ (oczekiwane 1):" << endl << A;
 
-    // 2. Mnozenie skalarne (A * 10)
-    cout << "2. A * 10 (oczekiwane 10):" << endl;
-    cout << (A * 10);
+    // 2. Modyfikacja +=
+    A += 10;
+    cout << "2. Po A += 10 (oczekiwane 11):" << endl << A;
 
-    // 3. Friend: Liczba + Macierz (5 + A)
-    cout << "3. 5 + A (oczekiwane 6):" << endl;
-    cout << (5 + A);
+    // 3. Modyfikacja *=
+    A *= 2;
+    cout << "3. Po A *= 2 (oczekiwane 22):" << endl << A;
 
-    // 4. Friend: Odejmowanie (10 - A)
-    // 10 - 1 = 9
-    cout << "4. 10 - A (oczekiwane 9):" << endl;
-    cout << (10 - A);
+    // 4. Dekrementacja (A--)
+    A--;
+    cout << "4. Po A-- (oczekiwane 21):" << endl << A;
+
+    // 5. Funktor A(double)
+    // Dodajemy czesc calkowita z 5.99 (czyli 5)
+    A(5.99);
+    cout << "5. Po A(5.99) (oczekiwane 26):" << endl << A;
 
     return 0;
 }
