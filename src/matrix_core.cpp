@@ -1,14 +1,13 @@
 #include "../include/matrix.h"
-#include <iostream>
-#include <algorithm> // std::copy
+#include <stdexcept>
 
-// --- Metody Pomocnicze (Private) ---
+// --- Metody Prywatne ---
 
 int& matrix::at(int x, int y) {
     if (x < 0 || x >= n || y < 0 || y >= n) {
         throw std::out_of_range("Blad: Indeks macierzy poza zakresem!");
     }
-    // Mapowanie 2D -> 1D
+    // Mapowanie wspolrzednych 2D na indeks tablicy 1D
     return data[y * n + x];
 }
 
@@ -22,87 +21,46 @@ int matrix::at(int x, int y) const {
 // --- Konstruktory i Destruktor ---
 
 matrix::matrix() : n(0), data(nullptr) {
-    // Pusta macierz
+    // Inicjalizacja pustego obiektu
 }
 
 matrix::matrix(int n) : n(0), data(nullptr) {
-    // Wywolujemy alokuj, ktora ustawi n i przydzieli pamiec
+    // Delegowanie zadania alokacji do metody alokuj()
     alokuj(n);
-}
-
-matrix::matrix(int n, int* t) : n(0), data(nullptr) {
-    alokuj(n);
-    // Przepisujemy dane z tablicy t do naszej pamieci
-    // UWAGA: Zakladamy, ze t ma rozmiar co najmniej n*n
-    if (t != nullptr) {
-        for (int i = 0; i < n * n; ++i) {
-            data[i] = t[i];
-        }
-    }
-}
-
-// Konstruktor kopiujacy - BARDZO WAZNY
-// unique_ptr nie mozna skopiowac (jest unikalny), wiec musimy
-// utworzyc nowa pamiec i skopiowac wartosci recznie (Gleboka Kopia).
-matrix::matrix(const matrix& m) : n(0), data(nullptr) {
-    alokuj(m.n);
-    if (m.data) {
-        std::copy(m.data.get(), m.data.get() + (n * n), data.get());
-    }
 }
 
 matrix::~matrix() {
-    // unique_ptr sam zwolni pamiec, ale warto o tym wiedziec.
-    // Mozna tu dodac logowanie dla celow edukacyjnych, np.:
-    // std::cout << "Destruktor macierzy rozmiaru " << n << std::endl;
+    // std::unique_ptr automatycznie zwolni pamiec po wyjsciu z zakresu.
+    // Nie trzeba recznie wolac delete[].
 }
 
 // --- Zarzadzanie Pamiecia ---
 
 matrix& matrix::alokuj(int nowe_n) {
-    if (nowe_n < 0) {
-        throw std::invalid_argument("Rozmiar macierzy nie moze byc ujemny");
-    }
+    // Zabezpieczenie przed ujemnym rozmiarem
+    if (nowe_n < 0) return *this;
 
-    // Obliczamy calkowita ilosc elementow
-    int stary_rozmiar = n * n;
-    int nowy_rozmiar = nowe_n * nowe_n;
-
-    // Logika zgodna z trescia zadania:
+    // Przypadek 1: Macierz pusta - alokujemy nowa pamiec
     if (data == nullptr) {
-        // 1. Nie ma pamieci -> alokujemy
         n = nowe_n;
-        data = std::make_unique<int[]>(nowy_rozmiar);
+        // make_unique alokuje tablice i zeruje ja
+        data = std::make_unique<int[]>(n * n);
     } 
-    else {
-        // 2. Pamiec juz jest. Sprawdzamy rozmiar.
-        if (nowy_rozmiar == stary_rozmiar) {
-            // Rozmiar ten sam -> nic nie robimy (ewentualnie mozna wyzerowac)
-        } 
-        else if (stary_rozmiar < nowy_rozmiar) {
-            // 3. Pamieci jest mniej niz potrzeba -> realokacja
-            // unique_ptr automatycznie usunie stary wskaznik przy przypisaniu nowego
-            n = nowe_n;
-            data = std::make_unique<int[]>(nowy_rozmiar);
-        } 
-        else {
-            // 4. Pamieci jest wiecej niz potrzeba -> pozostawic bez zmian (wg zadania)
-            // Zmieniamy tylko wymiar n, ale fizycznie w pamieci wciaz jest wiecej miejsca.
-            // Jest to optymalizacja, zeby nie alokowac w kolko mniejszych buforow.
-            n = nowe_n;
-        }
+    // Przypadek 2: Zmiana rozmiaru - realokacja
+    else if (n != nowe_n) {
+        n = nowe_n;
+        // Stary wskaznik zostanie automatycznie usuniety przy przypisaniu nowego
+        data = std::make_unique<int[]>(n * n);
     }
-
-    // Inicjalizacja zerami dla bezpieczenstwa (opcjonalne, ale zalecane)
-    // make_unique<int[]> domyslnie inicjalizuje zerami, wiec jest ok.
+    // Przypadek 3: Rozmiar ten sam - brak akcji (zgodnie z trescia zadania)
     
     return *this;
 }
 
-// --- Dostep do Danych ---
+// --- Metody Dostepowe ---
 
 matrix& matrix::wstaw(int x, int y, int wartosc) {
-    // Metoda at() zalatwia sprawdzanie zakresow
+    // Uzywamy metody at() dla bezpieczenstwa (sprawdza zakresy)
     at(x, y) = wartosc;
     return *this;
 }
@@ -111,21 +69,6 @@ int matrix::pokaz(int x, int y) const {
     return at(x, y);
 }
 
-// Operator przypisania (A = B)
-matrix& matrix::operator=(const matrix& m) {
-    // 1. Sprawdzenie autozapisu (A = A) - zebysmy nie usuneli sami siebie
-    if (this == &m) {
-        return *this;
-    }
-
-    // 2. Alokacja nowej pamieci (lub wykorzystanie istniejacej)
-    // Metoda alokuj() sama sprawdzi, czy rozmiar sie zmienil
-    alokuj(m.n);
-
-    // 3. Gleboka kopia danych (Deep Copy)
-    if (m.data) {
-        std::copy(m.data.get(), m.data.get() + (n * n), data.get());
-    }
-
-    return *this;
+int matrix::size() const {
+    return n;
 }

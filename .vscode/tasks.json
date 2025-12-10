@@ -3,35 +3,30 @@
   "tasks": [
     {
       "type": "cppbuild",
-      "label": "Kompilacja Projektu Matrix",
+      "label": "Kompilacja Matrix",
       "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
       "args": [
         "-fdiagnostics-color=always",
         "-g",
         "-std=c++17",
 
-        // 1. Wskazujemy, gdzie są pliki nagłówkowe (.h)
+        // Gdzie szukać nagłówków
         "-I",
         "${workspaceFolder}/include",
 
-        // 2. Kompilujemy WSZYSTKIE pliki .cpp z folderu src
-        // Dzięki gwiazdce (*) nie musisz dopisywać ręcznie nowych plików
-        "${workspaceFolder}/src/*.cpp",
+        // LISTA PLIKÓW DO KOMPILACJI (Musimy je wymieniać ręcznie na Windows)
+        "${workspaceFolder}/src/matrix_core.cpp",
+        "${workspaceFolder}/app/main.cpp",
 
-        // 3. Wskazujemy nazwę pliku wynikowego (.exe) w głównym folderze
         "-o",
         "${workspaceFolder}/matrix_app.exe"
       ],
       "options": {
-        // Ustawiamy katalog roboczy na główny folder projektu
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": ["$gcc"],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "detail": "Kompiluje cały projekt (wszystkie pliki w src/)"
+      "group": { "kind": "build", "isDefault": true },
+      "detail": "Kompilacja wskazanych plików projektu"
     }
   ]
 }
