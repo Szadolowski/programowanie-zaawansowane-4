@@ -83,5 +83,25 @@ public:
      */
     int size() const;
 
-    
+    /**
+     * @brief Konstruktor inicjalizujacy macierz danymi z tablicy.
+     * @param n Wielkosc macierzy.
+     * @param t Wskaznik do tablicy z danymi.
+     */
+    matrix(int n, int* t);
+
+    /**
+     * @brief Konstruktor kopiujacy (Deep Copy).
+     * Tworzy nowy obiekt i kopiuje do niego zawartosc innej macierzy.
+     * @param m Macierz zrodlowa.
+     */
+    matrix(const matrix& m);
+
+    /**
+     * @brief Operator przypisania kopiujacego (Deep Copy).
+     * Obsluguje operacje: A = B.
+     * @param m Macierz zrodlowa.
+     * @return matrix& Referencja do this.
+     */
+    matrix& operator=(const matrix& m);
 };

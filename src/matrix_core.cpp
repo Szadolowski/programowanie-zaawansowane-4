@@ -1,5 +1,6 @@
 #include "../include/matrix.h"
 #include <stdexcept>
+#include <algorithm>
 
 // --- Metody Prywatne ---
 
@@ -71,4 +72,43 @@ int matrix::pokaz(int x, int y) const {
 
 int matrix::size() const {
     return n;
+}
+
+// Konstruktor z gotowej tablicy (np. int t[])
+matrix::matrix(int n, int* t) : n(0), data(nullptr) {
+    alokuj(n);
+    if (t != nullptr) {
+        // Kopiujemy dane z tablicy t do naszej pamieci
+        std::copy(t, t + (n * n), data.get());
+    }
+}
+
+// Konstruktor kopiujacy (tworzy nowy obiekt na podstawie istniejacego)
+matrix::matrix(const matrix& m) : n(0), data(nullptr) {
+    // 1. Alokujemy wlasna pamiec o takim samym rozmiarze
+    alokuj(m.n);
+    
+    // 2. Kopiujemy dane (jesli zrodlo nie jest puste)
+    if (m.data) {
+        std::copy(m.data.get(), m.data.get() + (n * n), data.get());
+    }
+    std::cout << "Konstruktor kopiujacy: Skopiowano macierz " << n << "x" << n << std::endl;
+}
+
+// Operator przypisania (obsluguje A = B dla istniejacych obiektow)
+matrix& matrix::operator=(const matrix& m) {
+    // 1. Ochrona przed autozapisem (A = A)
+    if (this == &m) {
+        return *this;
+    }
+
+    // 2. Dopasowanie rozmiaru (realokacja jesli konieczna)
+    alokuj(m.n);
+
+    // 3. Kopiowanie danych
+    if (m.data) {
+        std::copy(m.data.get(), m.data.get() + (n * n), data.get());
+    }
+    
+    return *this;
 }
