@@ -104,4 +104,26 @@ public:
      * @return matrix& Referencja do this.
      */
     matrix& operator=(const matrix& m);
+
+    // ... wewnątrz class matrix ...
+
+    // Metody logiczne
+    matrix& losuj();
+    matrix& losuj(int ilosc);
+    matrix& dowroc();
+    
+    // Wzorce
+    matrix& przekatna();
+    matrix& pod_przekatna();
+    matrix& nad_przekatna();
+    matrix& szachownica();
+    
+    // Wzorce z tablicy
+    matrix& diagonalna(int* t);
+    matrix& diagonalna_k(int k, int* t);
+    matrix& kolumna(int x, int* t);
+    matrix& wiersz(int y, int* t);
+
+    // Operator << (friend)
+    friend std::ostream& operator<<(std::ostream& o, const matrix& m);
 };

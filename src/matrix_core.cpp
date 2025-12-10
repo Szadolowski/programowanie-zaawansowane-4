@@ -1,6 +1,7 @@
 #include "../include/matrix.h"
 #include <stdexcept>
 #include <algorithm>
+#include <iomanip>
 
 // --- Metody Prywatne ---
 
@@ -111,4 +112,19 @@ matrix& matrix::operator=(const matrix& m) {
     }
     
     return *this;
+}
+
+// --- Operator Wyswietlania (Friend) ---
+
+std::ostream& operator<<(std::ostream& o, const matrix& m) {
+    // Iterujemy po wierszach (y) i kolumnach (x)
+    for (int y = 0; y < m.n; ++y) {
+        o << "| ";
+        for (int x = 0; x < m.n; ++x) {
+            // setw(4) ustawia stala szerokosc pola, zeby kolumny byly rowne
+            o << std::setw(4) << m.at(x, y) << " ";
+        }
+        o << "|" << std::endl;
+    }
+    return o;
 }
