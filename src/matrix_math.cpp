@@ -161,3 +161,44 @@ matrix& matrix::operator()(double a) {
     // Wykorzystujemy istniejacy operator += zeby nie powielac kodu
     return (*this += czesc_calkowita);
 }
+
+// --- Operatory Porownania ---
+
+bool matrix::operator==(const matrix& m) const {
+    // 1. Sprawdzenie wymiarow
+    if (n != m.n) {
+        return false; // Rozne wymiary = nie sa rowne
+    }
+
+    // 2. Sprawdzenie kazdego elementu
+    for (int i = 0; i < n * n; ++i) {
+        if (data[i] != m.data[i]) {
+            return false; // Znaleziono roznice
+        }
+    }
+    return true; // Przeszlismy cala tablice, wszystko sie zgadza
+}
+
+bool matrix::operator>(const matrix& m) const {
+    if (n != m.n) return false; // Nie mozna porownac wymiarow
+
+    // Definicja: Kazdy element A musi byc wiekszy od elementu B
+    for (int i = 0; i < n * n; ++i) {
+        if (data[i] <= m.data[i]) {
+            return false; // Znaleziono element, ktory nie jest wiekszy
+        }
+    }
+    return true;
+}
+
+bool matrix::operator<(const matrix& m) const {
+    if (n != m.n) return false;
+
+    // Definicja: Kazdy element A musi byc mniejszy od elementu B
+    for (int i = 0; i < n * n; ++i) {
+        if (data[i] >= m.data[i]) {
+            return false; // Znaleziono element, ktory nie jest mniejszy
+        }
+    }
+    return true;
+}
