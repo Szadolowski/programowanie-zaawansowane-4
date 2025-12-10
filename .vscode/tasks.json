@@ -9,24 +9,21 @@
         "-fdiagnostics-color=always",
         "-g",
         "-std=c++17",
-
-        // Gdzie szukać nagłówków
         "-I",
         "${workspaceFolder}/include",
 
-        // ...
-        // LISTA PLIKÓW DO KOMPILACJI:
+        // LISTA PLIKÓW:
         "${workspaceFolder}/src/matrix_core.cpp",
+        "${workspaceFolder}/src/matrix_logic.cpp",
         "${workspaceFolder}/src/matrix_math.cpp",
-        "${workspaceFolder}/src/matrix_logic.cpp", // <--- DODANO TĘ LINIĘ
+        "${workspaceFolder}/src/file_utils.cpp", // <--- DODAJ TĘ LINIJKĘ
         "${workspaceFolder}/app/main.cpp",
-        // ...
 
         "-o",
-        "${workspaceFolder}/matrix_app.exe"
+        "${workspaceFolder}/app/matrix_app.exe"
       ],
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}/app"
       },
       "problemMatcher": ["$gcc"],
       "group": { "kind": "build", "isDefault": true },
