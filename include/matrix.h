@@ -42,6 +42,12 @@ public:
     explicit matrix(int n);
 
     /**
+     * @brief Operator przypisania kopiujacego.
+     * Konieczny przy unique_ptr, aby obslugiwac operacje typu: A = B;
+     */
+    matrix& operator=(const matrix& m);
+
+    /**
      * @brief Konstruktor inicjalizujacy macierz danymi z tablicy.
      * @param n Wielkosc macierzy.
      * @param t Wskaznik do tablicy z danymi.

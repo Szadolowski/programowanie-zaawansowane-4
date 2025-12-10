@@ -110,3 +110,22 @@ matrix& matrix::wstaw(int x, int y, int wartosc) {
 int matrix::pokaz(int x, int y) const {
     return at(x, y);
 }
+
+// Operator przypisania (A = B)
+matrix& matrix::operator=(const matrix& m) {
+    // 1. Sprawdzenie autozapisu (A = A) - zebysmy nie usuneli sami siebie
+    if (this == &m) {
+        return *this;
+    }
+
+    // 2. Alokacja nowej pamieci (lub wykorzystanie istniejacej)
+    // Metoda alokuj() sama sprawdzi, czy rozmiar sie zmienil
+    alokuj(m.n);
+
+    // 3. Gleboka kopia danych (Deep Copy)
+    if (m.data) {
+        std::copy(m.data.get(), m.data.get() + (n * n), data.get());
+    }
+
+    return *this;
+}
