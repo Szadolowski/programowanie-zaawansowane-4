@@ -182,7 +182,52 @@ void Test5_Pliki_Wydajnosc() {
     }
 }
 
+// Test scalania macierzy o różnych rozmiarach
+void Test6_Scalanie_Rozne_Rozmiary() {
+    naglowek("6. Scalanie Macierzy o Różnych Rozmiarach");
+    
+    cout << "Tworzenie macierzy A (2x2) i B (3x3)..." << endl;
+    
+    // Macierz A o rozmiarze 2x2
+    int dane_A[] = {1, 2, 3, 4};
+    matrix A(2, dane_A);
+    cout << "Macierz A (2x2):\n" << A;
+    
+    // Macierz B o rozmiarze 3x3
+    int dane_B[] = {5, 6, 7, 8, 9, 10, 11, 12, 13};
+    matrix B(3, dane_B);
+    cout << "Macierz B (3x3):\n" << B;
+    
+    // Próba scalania macierzy o różnych rozmiarach
+    cout << "\nPróba dodawania A + B (różne rozmiary)..." << endl;
+    try {
+        matrix Wynik = A + B;
+        cout << "Wynik:\n" << Wynik;
+    } catch (const exception& e) {
+        cout << "[ BLAD PRZEWIDZIANY ] Złapano wyjątek: " << e.what() << endl;
+    }
+    
+    cout << "\nPróba odejmowania A - B (różne rozmiary)..." << endl;
+    try {
+        matrix Wynik = A - B;
+        cout << "Wynik:\n" << Wynik;
+    } catch (const exception& e) {
+        cout << "[ BLAD PRZEWIDZIANY ] Złapano wyjątek: " << e.what() << endl;
+    }
+    
+    cout << "\nPróba mnożenia A * B (różne rozmiary)..." << endl;
+    try {
+        matrix Wynik = A * B;
+        cout << "Wynik:\n" << Wynik;
+    } catch (const exception& e) {
+        cout << "[ BLAD PRZEWIDZIANY ] Złapano wyjątek: " << e.what() << endl;
+    }
+    
+    sukces("Test scalania macierzy o różnych rozmiarach zakonczony.");
+}
+
 int main() {
+
     // Menu Główne - Sterowanie Testami
     while (true) {
         cout << "\n=== SYSTEM MACIERZY (PROJEKT P4) ===" << endl;
@@ -191,6 +236,7 @@ int main() {
         cout << "3. Test Matematyki (Operatory +, -, *)" << endl;
         cout << "4. Test Modyfikacji (++, +=, Porownania)" << endl;
         cout << "5. Test Plikow i Wydajnosci (n=30)" << endl;
+        cout << "6. Test Scalania Macierzy o Różnych Rozmiarach" << endl;
         cout << "9. URUCHOM WSZYSTKIE TESTY (Pelna prezentacja)" << endl;
         cout << "0. Wyjscie" << endl;
         cout << "Wybor: ";
@@ -209,12 +255,14 @@ int main() {
                 case 3: Test3_Operatory_Arytmetyczne(); break;
                 case 4: Test4_Modyfikacje_Porownania(); break;
                 case 5: Test5_Pliki_Wydajnosc(); break;
+                case 6: Test6_Scalanie_Rozne_Rozmiary(); break;
                 case 9:
                     Test1_Pamiec_Konstruktory();
                     Test2_Logika_Ksztalty();
                     Test3_Operatory_Arytmetyczne();
                     Test4_Modyfikacje_Porownania();
                     Test5_Pliki_Wydajnosc();
+                    Test6_Scalanie_Rozne_Rozmiary();
                     break;
                 default: cout << "Nieznana opcja." << endl;
             }
@@ -229,6 +277,8 @@ int main() {
     // Pauza na koniec (dla Windows)
     cout << "\nKoniec programu.";
     cin.ignore(); cin.get();
+
+
 
     return 0;
 }

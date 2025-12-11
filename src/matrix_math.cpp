@@ -35,27 +35,28 @@ matrix matrix::operator-(const matrix& m) const {
 
 // Mnozenie: A * B
 // UWAGA: To jest mnozenie wiersz * kolumna (O(n^3)), a nie element * element!
+// Zoptymalizowana wersja z jedną pętlą zewnętrzną i bezpośrednim dostępem do danych
 matrix matrix::operator*(const matrix& m) const {
     if (n != m.n) {
         throw std::invalid_argument("Blad: Nie mozna mnozyc macierzy roznych rozmiarow!");
     }
 
     matrix wynik(n); // Wynikowa macierz
+    int* w_data = wynik.data.get(); // Bezpośredni dostęp do danych wyniku
+    const int* a_data = this->data.get(); // Dane macierzy A
+    const int* b_data = m.data.get(); // Dane macierzy B
     
-    // y - wiersz w macierzy wynikowej
-    for (int y = 0; y < n; ++y) {
-        // x - kolumna w macierzy wynikowej
-        for (int x = 0; x < n; ++x) {
-            int suma = 0;
-            // k - indeks do 'przesuwania sie' (wiersz w A, kolumna w B)
-            for (int k = 0; k < n; ++k) {
-                // A(k, y) * B(x, k)
-                // this->at(k, y) to element z wiersza y kolumny k obecnej macierzy
-                // m.at(x, k) to element z wiersza k kolumny x drugiej macierzy
-                suma += this->at(k, y) * m.at(x, k);
-            }
-            wynik.wstaw(x, y, suma);
+    // Pojedyncza pętla po wszystkich elementach wyniku
+    for (int idx = 0; idx < n * n; ++idx) {
+        int y = idx / n;  // Wiersz
+        int x = idx % n;  // Kolumna
+        int suma = 0;
+        
+        // Iloczyn skalarny wiersza A z kolumną B
+        for (int k = 0; k < n; ++k) {
+            suma += a_data[y * n + k] * b_data[k * n + x];
         }
+        w_data[idx] = suma;
     }
     return wynik;
 }
